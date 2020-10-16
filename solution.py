@@ -1,4 +1,6 @@
 from socket import *
+import base64
+import time
 
 
 def smtp_client(port=1025, mailserver='127.0.0.1'):
@@ -16,29 +18,34 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
     recv = clientSocket.recv(1024).decode()
     #if recv[:3] != '220':
-        #print('220 reply not received from server.')
+       # print('220 reply not received from server.')
 
     # Send HELO command and print server response.
     heloCommand = 'HELO Alice\r\n'
     clientSocket.send(heloCommand.encode())
     recv1 = clientSocket.recv(1024).decode()
+	
     #print(recv1)
+	
     #if recv1[:3] != '250':
-        #print('250 reply not received from server.')
+       # print('250 reply not received from server.')
+		
 
+		
     # Send MAIL FROM command and print server response.
     # Fill in start
-    MailFrom = "The email is from Shu Lin\r\n"
+    MailFrom = "MAIL FROM:<iamlinshu@gmail.com>\r\n"
     clientSocket.send(MailFrom.encode())
     receive2 = clientSocket.recv(1024).decode()
-	#print(receive2)
+    #print(receive2)
     # Fill in end
 
     # Send RCPT TO command and print server response.
     # Fill in start
-    RCPT = "RCPT: iamlinshu@gmail.com\r\n"
+    RCPT = "RCPT TO:<losvhesy@gmail.com>\r\n"
     clientSocket.send(RCPT.encode())
     receiveRCPT = clientSocket.recv(1024).decode()
+    #print(receiveRCPT)
     # Fill in end
 
     # Send DATA command and print server response.
@@ -46,27 +53,29 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     DATA = "DATA\r\n"
     clientSocket.send(DATA.encode())
     receiveDATA = clientSocket.recv(1024).decode()
+    #print(receiveDATA)
     # Fill in end
 
     # Send message data.
     # Fill in start
-    message = "This is my message: Hello!\r\n"
-    clientSocket.send(message.encode())
-    receiveMsg = clientSocket.recv(1024).decode()
+    clientSocket.send(msg.encode())
+    #receiveMsg = clientSocket.recv(1024).decode()
+    #print("receiveMsg: ", receiveMsg)
     # Fill in end
 
     # Message ends with a single period.
     # Fill in start
-    messageEnd = "\r\n.\r\n"
-    clientSocket.send(messageEnd.encode())
-    receiveEnd = clientSocket.recv(1024)
+    clientSocket.send(endmsg.encode())
+    receiveEnd = clientSocket.recv(1024).decode()
+    #print("receiveEnd: ", receiveEnd)
     # Fill in end
 
     # Send QUIT command and get server response.
     # Fill in start
-    quit = "quit\r\n"
+    quit = "QUIT\r\n"
     clientSocket.send(quit.encode())
-    receiveQuit = clientSocket.recv(1024)
+    receiveQuit = clientSocket.recv(1024).decode()
+    #print("quit: ", receiveQuit)
     clientSocket.close()
     # Fill in end
 
